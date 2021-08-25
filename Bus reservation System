@@ -1,0 +1,170 @@
+#include <iostream>
+#include <cstdlib>
+#include <string.h>
+#include <cstdlib>
+using namespace std;
+static int p=0;
+class buses{
+    char busno[5],driver[15],arrival[5],departure[5],from[10],to[10],seat[8][4][10];
+    public:
+    void install();
+    void allotment();
+    void empty();
+    void show();
+    void avail();
+    void position(int i);
+}
+bus[10];
+void horizontalbreak(char ch){
+    int i=100;
+    while(i>0){
+        cout<<ch;
+        i--;
+    }
+}
+void buses::install(){
+    cout<<"\nEnter the bus number: ";
+    cin>>bus[p].busno;
+    cout<<"\nDriver's name: ";
+    cin>>bus[p].driver;
+    cout<<"\nArrival time: ";
+    cin>>bus[p].arrival;
+    cout<<"\nDeparture time: ";
+    cin>>bus[p].departure;
+    cout<<"\nFrom:  ";
+    cin>>bus[p].from;
+    cout<<"\nTo:  ";
+    cin>>bus[p].to;
+    bus[p].empty();
+    p++;
+}
+void buses::allotment(){
+    int seat;
+    char number[5];
+    top:
+    cout<<"\n Bus no: ";
+    cin>>number;
+    int n;
+    for(n=0;n<=p;n++){
+        if(strcmp(bus[n].busno,number)==0)break;
+    }
+    while(n<=p){
+        cout<<"\nSeat number: ";
+        cin>>seat;
+        if(seat>32)cout<<"\nThere are only 32 seats availale";
+        else{
+            if(strcmp(bus[n].seat[seat/4][(seat%4)-1],"Empty")==0){
+                cout<<"\nEnter passenger's name: ";
+                cin>>bus[n].seat[seat/4][(seat%4)-1];
+                cout<<"\n Thankyou! Have a safe journey.";
+                break;
+            }
+            else{
+                cout<<"\nSorry! seat is already reserved.";
+            }
+        }
+    }
+    if(n>p){
+        cout<<"\nPlease, enter correct bus number: ";
+        goto top;
+    }
+}
+void buses::empty(){
+    for(int i=0;i<8;i++){
+        for(int j=0;j<4;j++){
+            strcpy(bus[p].seat[i][j],"Empty");
+        }
+    }
+}
+void buses::show(){
+    int n;
+    char number[5];
+    cout<<"\nEnter bus number: ";
+    cin>>number;
+    for(n=0;n<=p;n++){
+        if(strcmp(bus[n].busno,number)==0)break;
+    }
+    while(n<=p){
+        horizontalbreak('*');
+        cout<<endl<<"Bus number: "<<bus[n].busno<<"\tDriver's name: "<<bus[n].driver
+        <<"\tArrival time: "<<bus[n].arrival<<"\tDeparture time: "<<bus[n].departure
+        <<"\tFrom:  "<<bus[n].from<<"\tTo:  "<<bus[n].to<<endl;
+        horizontalbreak('*');
+        bus[0].position(n);
+        int a=1;
+        for(int i=0;i<8;i++){
+            for(int j=0;j<4;j++){
+                a++;
+                if(strcmp(bus[n].seat[i][j],"Empty")!=0){
+                    cout<<"\nSeat number "<<a-1<<" is reserved for "<<bus[n].seat[i][j]<<endl;
+                }
+            }
+        }
+        break;
+    }
+    if(n>p){
+        cout<<"\nEnter correct bus number: ";
+    }
+}
+void buses::position(int l){
+    int s=0,p=0;
+    for(int i=0;i<8;i++){
+        cout<<endl;
+        for(int j=0;j<4;j++){
+            s++;
+            if(strcmp(bus[l].seat[i][j],"Empty")==0){
+                cout.width(5);
+                cout.fill(' ');
+                cout<<s<<".";
+                cout.width(10);
+                cout.fill(' ');
+                cout<<bus[l].seat[i][j];
+                p++;
+            }
+            else{
+                cout.width(5);
+                cout.fill(' ');
+                cout<<s<<".";
+                cout.width(10);
+                cout.fill(' ');
+                cout<<bus[l].seat[i][j];
+            }
+        }
+    }
+    cout<<"\nThere are "<<p<<" seats empty in the bus.\n";
+}
+void buses::avail(){
+    for(int n=0;n<=p;n++){
+        horizontalbreak('*');
+        cout<<"Bus number: "<<bus[n].busno<<"\tDriver's name: "<<bus[n].driver
+        <<"\tArrival time: "<<bus[n].arrival<<"\tDeparture time: "<<bus[n].departure
+        <<"\tFrom:  "<<bus[n].from<<"\tTo:  "<<bus[n].to<<endl;
+        horizontalbreak('*');
+        horizontalbreak('_');
+    }
+}
+int main(){
+    cout<<"Welcome to Bus Reservation"<<endl<<"Please select the number corresponding to the operation you want to perform."<<endl;
+    int n;
+    while(1){
+        cout<<"1.Install \n"<<"2.Reservation\n"<<"3.Show\n"<<"4.Buses available\n"
+        <<"5.Exit\n";
+        top: cin>>n;
+        switch(n){
+            case 1:bus[p].install();
+            break;
+            case 2:bus[p].allotment();
+            break;
+            case 3:bus[0].show();
+            break;
+            case 4:bus[0].avail();
+            break;
+            case 5:exit(0);
+            break;
+            default:cout<<"enter valid number: ";
+            goto top;
+            break;
+        }
+    }
+    return 0;
+}
