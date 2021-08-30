@@ -105,6 +105,7 @@ void buses::show(){
     if(n>p){
         cout<<"\nEnter correct bus number: ";
     }
+    cout<<endl;
 }
 void buses::position(int l){
     int s=0,p=0;
@@ -136,11 +137,13 @@ void buses::position(int l){
 void buses::avail(){
     for(int n=0;n<=p;n++){
         horizontalbreak('*');
-        cout<<"Bus number: "<<bus[n].busno<<"\tDriver's name: "<<bus[n].driver
+        cout<<endl<<"Bus number: "<<bus[n].busno<<"\tDriver's name: "<<bus[n].driver
         <<"\tArrival time: "<<bus[n].arrival<<"\tDeparture time: "<<bus[n].departure
         <<"\tFrom:  "<<bus[n].from<<"\tTo:  "<<bus[n].to<<endl;
         horizontalbreak('*');
+        cout<<endl;
         horizontalbreak('_');
+        cout<<endl;
     }
 }
 int main(){
